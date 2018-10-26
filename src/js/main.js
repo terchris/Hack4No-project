@@ -5,11 +5,15 @@ var google = L.tileLayer('http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y=
                          {id: 'OSM-maps', attribution: '&copy; <a href="http://openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'});
 
 var markers = L.layerGroup();
+var /*marker1 = L.marker([59.916425, 10.750357]).bindPopup('person1').addTo(markers),
+    marker2 = L.marker([59.917436, 10.752170]).bindPopup('person2').addTo(markers),
+    marker3 = L.marker([59.917549, 10.754445]).bindPopup('person3').addTo(markers),*/
+    marker4 = L.marker([59.918646, 10.757353]).bindPopup('destination').addTo(markers);
 
 var map = L.map('map', {
-  center: [59.9127300, 10.7460900],
+  center: [59.917436, 10.752170],
   zoom: 16,
-  layers: [google]
+  layers: [google, markers]
 });
 
 // initializing layer control
@@ -23,49 +27,24 @@ var overlayMaps = {
 
 var control = L.control.layers(baseMaps, overlayMaps, {position: 'bottomright'}).addTo(map);
 
-//
-$.get("https://www.vegvesen.no/ruteplan/routingservice_v1_0/routingservice/solve?stops=255705,6596507;241697,6596651&returnDirections=true&returnGeometry=true&format=json", function(data, status){
-  alert("Data: " + data + "\nStatus: " + status);
+
+var searchControl = L.esri.Geocoding.geosearch().addTo(map);
+
+searchControl.on('results', function(data) {
+  //results.clearLayers();
+  for (var i = data.results.length - 1; i >= 0; i--) {
+    markers.addLayer(L.marker(data.results[i].latlng));
+  }
 });
 
 
 
+// https://www.vegvesen.no/ruteplan/routingservice_v1_0/routingservice/solve?stops=255705,6596507;241697,6596651&returnDirections=true&returnGeometry=true&format=json
 
-
-
-
-
-
-
-
+// https://www.vegvesen.no/ruteplan/routingservice_v1_0/routingservice/solve?stops=255705,6596507;241697,6596651&returnDirections=true&returnGeometry=true&format=json
 
 /*
-var basemLayers = [
-  new ol.layer.Tile({
-    source: new ol.source.OSM()
-  })
-  new TileLayer({
-    extent: extent,
-    source: new TileWMS({
-      url: 'http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}',
-      crossOrigin: 'anonymous',
-      attributions: '© <a href="http://www.geo.admin.ch/internet/geoportal/' +
-      'en/home.html">Pixelmap 1:1000000 / geo.admin.ch</a>',
-      params: {
-        'LAYERS': 'ch.swisstopo.pixelkarte-farbe-pk1000.noscale',
-        'FORMAT': 'image/jpeg'
-      },
-      serverType: 'mapserver'
-    })
-  })
-];
-
-var smap = new ol.Map({
-  target: 'map',
-  layers: basemLayers,
-  view: new ol.View({
-    center: ol.proj.fromLonLat([37.41, 8.82]),
-    zoom: 4
-  })
+$.get("https://www.vegvesen.no/ruteplan/routingservice_v1_0/routingservice/solve?stops=255705,6596507;241697,6596651&returnDirections=true&returnGeometry=true&format=json", function(data, status) {
+  alert("Data: " + data + "\nStatus: " + status);
 });
 */
