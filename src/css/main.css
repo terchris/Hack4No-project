@@ -1,13 +1,6 @@
 @charset "UTF-8";
 
-body
+div#map
 {
-  margin: 0 auto;
-  padding: 0;
-}
-
-div
-{
-  width: 1000px;
-  height: 400px;
+  height: 96vh;
 }
