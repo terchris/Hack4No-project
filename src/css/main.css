@@ -1,1 +1,13 @@
 @charset "UTF-8";
+
+body
+{
+  margin: 0 auto;
+  padding: 0;
+}
+
+div
+{
+  width: 1000px;
+  height: 400px;
+}
